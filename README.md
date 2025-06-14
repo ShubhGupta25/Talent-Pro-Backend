@@ -1,21 +1,110 @@
-# Talent Pro Backend
+# TalentPro Backend
 
-This is a simple Python Flask project.
+A modern Python Flask backend for the TalentPro platform, supporting user registration, login, file upload, chat engine, and more. This backend is designed for integration with a React (TypeScript) frontend and supports role-based access, JWT authentication (optional), and file uploads.
 
-## Setup
+## Features
 
-1. Create a virtual environment (optional but recommended):
-   ```powershell
-   python -m venv venv
-   .\venv\Scripts\activate
-   ```
-2. Install dependencies:
+- User registration and login
+- JWT authentication (can be enabled/disabled)
+- Role-based access (can be enabled/disabled)
+- File upload for employee details
+- Chat engine endpoint for recruiters
+- CORS enabled for frontend integration
+- In-memory user store (for demo; replace with DB for production)
+
+## Endpoints
+
+### 1. Register User
+
+- **Endpoint:** `POST /user/register`
+- **Payload:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "yourpassword",
+    "registrationType": "recruiter" | "employee"
+  }
+  ```
+- **Response:**
+  - `200 OK` on success
+  - `400` if user exists or fields are missing
+
+### 2. Login User
+
+- **Endpoint:** `POST /user/login`
+- **Payload:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "yourpassword"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "token": "<jwt-token>",
+    "userType": "recruiter" | "employee"
+  }
+  ```
+  - `401` if credentials are invalid
+
+### 3. User Details Submission (Employee)
+
+- **Endpoint:** `POST /user/details`
+- **Payload:** `multipart/form-data`
+  - `githubUrl`: string (required)
+  - `file`: file (optional)
+- **Response:**
+  - `200 OK` on success
+  - `400` if `githubUrl` is missing
+
+### 4. Chat Engine Query (Recruiter)
+
+- **Endpoint:** `POST /chat-engine/query`
+- **Payload:**
+  ```json
+  {
+    "message": "Your chat message here"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "response": "Bot reply here"
+  }
+  ```
+
+### 5. Logout
+
+- **Endpoint:** `POST /user/logout`
+- **Payload:**
+  ```json
+  {
+    "email": "user@example.com"
+  }
+  ```
+- **Response:**
+  - `200 OK` on success
+
+## Running the App
+
+1. Install dependencies:
    ```powershell
    pip install -r requirements.txt
    ```
-3. Run the Flask app:
+2. Start the Flask server:
    ```powershell
    python app.py
    ```
+3. The API will be available at `http://localhost:8080`
 
-The app will be available at http://127.0.0.1:5000/
+## Notes
+
+- All data is stored in memory for demonstration. Use a database for production.
+- JWT authentication and role checks can be enabled/disabled in the code.
+- CORS is enabled for frontend integration.
+- For file uploads, files are saved in the `uploads/` directory.
+
+---
+
+Made with ❤️ using Flask and modern Python best practices.
