@@ -105,6 +105,28 @@ A modern Python Flask backend for the TalentPro platform, supporting user regist
 - CORS is enabled for frontend integration.
 - For file uploads, files are saved in the `uploads/` directory.
 
+## Chatbot
+
+- The backend includes a simple rule-based chatbot method (`chatbot(message)`) that returns canned responses for queries like "hello", "help", "bye", and more. You can expand this logic as needed.
+- Example usage:
+  ```python
+  chatbot("hello")  # returns: "Hello! How can I help you today?"
+  chatbot("help")   # returns: "Sure, I'm here to help. What do you need assistance with?"
+  chatbot("bye")    # returns: "Goodbye! Have a great day!"
+  chatbot("random text")  # returns: "You said: random text"
+  ```
+
+## Analysis Method
+
+- The backend provides an `analyze` method for candidate analysis:
+  ```python
+  analyze(github_url, github_profile, resume_path)
+  ```
+  - `github_url`: The candidate's GitHub profile URL
+  - `github_profile`: The dict returned by the GitHub profile fetch function
+  - `resume_path`: The path to the candidate's resume file
+  - This method logs all inputs and is ready for custom analysis logic.
+
 ---
 
 Made with ❤️ using Flask and modern Python best practices.

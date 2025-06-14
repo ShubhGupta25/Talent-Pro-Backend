@@ -96,7 +96,7 @@ def chat_query():
     message = data.get('message')
     print('message:', message)
     # Dummy bot reply
-    response = {'response': f'Bot reply to: {message}'}
+    response = {'response': chatbot(message)}
     print('response:', response)
     print('--- /chat-engine/query completed successfully ---')
     return jsonify(response)
@@ -209,6 +209,25 @@ def analyze(github_url, github_profile, resume_path):
     # Add your custom analysis logic here (e.g., scoring, matching, etc.)
     # This method returns void (no return statement)
     pass
+
+def chatbot(message):
+    """
+    Simple rule-based chatbot for demo purposes.
+    Returns canned responses for 'help', 'hello', 'bye', etc.
+    """
+    if not message or not isinstance(message, str):
+        return "Sorry, I didn't understand that."
+    msg = message.lower().strip()
+    if 'hello' in msg or 'hi' in msg:
+        return "Hello! How can I help you today?"
+    elif 'help' in msg:
+        return "Sure, I'm here to help. What do you need assistance with?"
+    elif 'bye' in msg or 'goodbye' in msg:
+        return "Goodbye! Have a great day!"
+    elif 'thanks' in msg or 'thank you' in msg:
+        return "You're welcome!"
+    else:
+        return f"You said: {message}"
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
